@@ -1,0 +1,21 @@
+name: Create Release ZIP
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create-release-zip:
+    runs-on: alpine
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create ZIP Archive
+        run: |
+          version=$(echo "${{ github.ref }}" | sed 's/refs\/tags\/v//')
+          zip -r "copy-v$version.zip" .
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-zip
+          path: copy-v${{ github.ref_name }}.zip
