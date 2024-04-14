@@ -1,21 +1,36 @@
-name: Create Release ZIP
+name: Create Release ZIP and Draft
 
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
-  create-release-zip:
-    runs-on: alpine
+  create-release:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Create ZIP Archive
         run: |
+          apk add --no-cache zip
           version=$(echo "${{ github.ref }}" | sed 's/refs\/tags\/v//')
           zip -r "copy-v$version.zip" .
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+      - name: Create Release Draft
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: release-zip
-          path: copy-v${{ github.ref_name }}.zip
+          tag_name: ${{ github.ref }}
+          release_name: Release v${{ github.ref_name }}
+          draft: true
+          prerelease: false
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./copy-v${{ github.ref_name }}.zip
+          asset_name: copy-v${{ github.ref_name }}.zip
+          asset_content_type: application/zip
