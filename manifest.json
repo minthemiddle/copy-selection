@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Copy Selection As Markdown",
-  "version": "1.0",
+  "version": "0.1.0",
   "description": "Save selected text as a Markdown citation with source information.",
   "icons": {
     "48": "icons/save-selection-48.png"
