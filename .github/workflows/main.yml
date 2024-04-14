@@ -10,9 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install zip
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zip
       - name: Create ZIP Archive
         run: |
-          apk add --no-cache zip
           version=$(echo "${{ github.ref }}" | sed 's/refs\/tags\/v//')
           zip -r "copy-v$version.zip" .
       - name: Create Release Draft
