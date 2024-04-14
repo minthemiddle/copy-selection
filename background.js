@@ -12,7 +12,6 @@ browser.menus.onClicked.addListener(async (info, tab) => {
 
     if (citation) {
       navigator.clipboard.writeText(citation[0]);
-      // TODO: Implement the option to append to a file
     }
   }
 });
