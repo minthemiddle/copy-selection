@@ -20,9 +20,9 @@ jobs:
           zip -r "copy-v$version.zip" . -x "*.git/*" -x "*.github/*"
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "copy-v${{ github.ref_name }}.zip"
+          artifacts: "copy-${{ github.ref_name }}.zip"
           tag: ${{ github.ref }}
-          name: Release v${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
           body: "See the assets to download this version and install."
           draft: true
           prerelease: false
