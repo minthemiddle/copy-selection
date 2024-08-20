@@ -2,7 +2,7 @@ function getCitation() {
   const selection = window.getSelection().toString().trim();
   if (!selection) return "";
 
-  const title = document.title;
+  let title = document.title;
   let url = window.location.href;
 
   // Check if the current page is on miniflux.app
@@ -10,6 +10,8 @@ function getCitation() {
     const linkElement = document.querySelector("h1#page-header-title a");
     if (linkElement && linkElement.href) {
       url = linkElement.href;
+      // Remove " - Miniflux" from the title
+      title = title.replace(/ - Miniflux$/, '');
     }
   }
 
